@@ -28,13 +28,22 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
-        if (Auth::attempt($request->only('email', 'password'))) {
+    
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt($credentials)) {
+            // Vérifier si l'utilisateur est bloqué (is_active = false)
+            if (!Auth::user()->is_active) {
+                Auth::logout();
+                return redirect('/login')->withErrors(['email' => 'Votre compte est bloqué. Contactez un administrateur.']);
+            }
+    
             return redirect()->intended('/')->with('success', 'Welcome back!');
         }
-
+    
         return back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
     }
+    
 
     // Show register form
     public function showRegisterForm(): View|Factory|Application

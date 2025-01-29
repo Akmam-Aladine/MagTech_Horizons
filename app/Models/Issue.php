@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Issue extends Model
 {
-    protected $fillable = ['title', 'description', 'published_at', 'is_public'];
+    protected $fillable = ['title', 'description', 'published_at', 'is_public','is_active'];
 
     public function articles(): BelongsToMany
     {

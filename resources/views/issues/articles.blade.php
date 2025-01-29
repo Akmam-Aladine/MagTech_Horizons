@@ -137,7 +137,7 @@
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2025 Tech Horizons. All rights reserved.</p>
+    <p>&copy;Magazine Tech Horizons. All rights reserved.</p>
 </footer>
 </body>
 </html>

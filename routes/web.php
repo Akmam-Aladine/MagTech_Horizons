@@ -52,22 +52,13 @@ Route::post('/editor/issues/add', [EditorController::class, 'addIssue'])->middle
 Route::post('/editor/issues/{id}/toggle-public', [EditorController::class, 'toggleIssuePublic'])->middleware('auth');
 Route::post('/editor/articles/{id}/publish', [EditorController::class, 'publishArticleToIssue'])->middleware('auth');
 Route::post('/editor/users/{id}/change-role', [EditorController::class, 'changeUserRole'])->middleware('auth');
+Route::post('/editor/users/{id}/toggle', [EditorController::class, 'toggleStatus'])->name('users.toggle');
+Route::delete('/editor/users/{id}/delete', [EditorController::class, 'destroy'])->name('users.destroy');
+Route::post('/editor/issues/{id}/toggle', [EditorController::class, 'toggleStatus_Issues'])->name('issues.toggle');
+
+// Route::get('/editor/issues/{id}/toggle', [EditorController::class, 'toggleStatus_Issues'])->name('issues.toggle');
 
 
-
-
-
-
-
-
-
-Route::get('/test', [TestController::class, 'index']);
-
-Route::get('/users', [UserController::class, 'index']); // List all users
-Route::post('/users', [UserController::class, 'store']); // Create a new user
-Route::get('/users/{id}', [UserController::class, 'show']); // Show a specific user
-Route::put('/users/{id}', [UserController::class, 'update']); // Update a user
-Route::delete('/users/{id}', [UserController::class, 'destroy']); // Delete a user
 
 
 

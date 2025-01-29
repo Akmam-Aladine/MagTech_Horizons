@@ -47,22 +47,7 @@ class EditorController extends Controller
         ));
     }
 
-    /**
-     * Change le rôle d'un utilisateur.
-     */
-//    public function changeUserRole(Request $request, $id)
-//    {
-//        $user = User::findOrFail($id);
-//        $request->validate(['role' => 'required|in:Guest,Subscriber,Theme Manager,Editor']);
-//        $user->role = $request->role;
-//        $user->save();
-//
-//        return redirect()->back()->with('success', 'User role updated successfully.');
-//    }
-
-    /**
-     * Ajoute un nouvel utilisateur.
-     */
+   
     public function addUser(Request $request)
     {
         $request->validate([
@@ -132,18 +117,6 @@ class EditorController extends Controller
         return redirect()->back()->with('success', 'Article published to issue successfully.');
     }
 
-//    public function changeUserRole(Request $request, $id)
-//    {
-//        $request->validate([
-//            'role' => 'required|in:Guest,Subscriber,Theme Manager,Editor',
-//        ]);
-//
-//        $user = User::findOrFail($id);
-//        $user->role = $request->role;
-//        $user->save();
-//
-//        return redirect()->back()->with('success', 'User role updated successfully.');
-//    }
 
     public function changeUserRole(Request $request, $id)
     {
@@ -177,7 +150,45 @@ class EditorController extends Controller
         // Retourner avec un message de succès
         return redirect()->back()->with('success', 'User role updated successfully.');
     }
+    public function toggleStatus($id)
 
+    {
+
+        $user = User::findOrFail($id);
+
+        $user->is_active = !$user->is_active; // Active/désactive l'utilisateur
+
+        $user->save();
+
+    
+
+        return redirect()->back()->with('success', 'Statut mis à jour.');
+
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Empêcher la suppression d'un administrateur principal
+        if ($user->role === 'Admin') {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas supprimer un administrateur.');
+        }
+    
+        $user->delete();
+    
+        return redirect()->back()->with('success', 'Utilisateur supprimé avec succès.');
+    }
+    
+
+    public function toggleStatus_Issues($id)
+{
+    $issue = Issue::findOrFail($id); 
+    $issue->is_active = !$issue->is_active; 
+    $issue->save(); 
+
+    return redirect()->back()->with('success', 'Issue status updated successfully.');
+}
 
 
 }

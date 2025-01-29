@@ -14,7 +14,7 @@
             color: #333;
         }
 
-        header {
+        /* header {
             background-color: #2C3E50;
             color: white;
             padding: 20px 30px;
@@ -22,11 +22,11 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: fixed; /* Fixe le header */
-            top: 0;          /* Positionné en haut */
-            left: 0;         /* S'étend à gauche */
-            right: 0;        /* S'étend à droite */
-            z-index: 1000;   /* S'assure qu'il est au-dessus des autres éléments */
+            position: fixed; Fixe le header
+            top: 0;          Positionné en haut
+            left: 0;         S'étend à gauche
+            right: 0;        S'étend à droite
+            z-index: 1000;   S'assure qu'il est au-dessus des autres éléments
         }
 
 
@@ -46,7 +46,78 @@
 
         header nav a:hover {
             color: #ecf0f1;
+        }  */
+          
+        header {
+            background-color: #2C3E50;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #ecf0f1;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            margin-left: 20px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar input::placeholder {
+            color: #999;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .search-bar svg {
+            width: 20px;
+            height: 20px;
+            fill: #2C3E50;
+        }
+
 
         .container {
             max-width: 1100px;
@@ -189,7 +260,7 @@
 <body>
 <!-- Header -->
 <header>
-    <h1>Tech Horizons</h1>
+    <!-- <h1>Tech Horizons</h1>
     <nav>
         @if(Auth::check())
             @if(Auth::user()->role === 'Theme Manager')
@@ -214,7 +285,46 @@
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         @endif
-    </nav>
+    </nav> -->
+    <h1>Tech Horizons</h1>
+    <div style="display: flex; align-items: center;">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher un article">
+            <button onclick="handleSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/>
+                </svg>
+            </button>
+        </div>
+        <nav>
+            @if(Auth::check())
+                @if(Auth::user()->role === 'Theme Manager')
+                    <a href="/theme-manager/dashboard">Dashboard</a>
+                    <a href="/logout">Logout</a>
+                @endif
+                @if(Auth::user()->role === 'Editor')
+                    <a href="/editor/dashboard">Dashboard</a>
+                    <a href="/logout">Logout</a>
+                @endif
+                @if(Auth::user()->role === 'Subscriber')
+                    <a href="/propose-article">Propose a New Article</a>
+                    <a href="/history">View Browsing History</a>
+                    <a href="/subscriptions">Subscriptions</a>
+                    <a href="/my-articles">My articles</a>
+                    <a href="/logout">Logout</a>
+                @endif
+                @if(Auth::user()->role === 'Guest')
+                    <a href="/logout">Logout</a>
+                @endif
+            @else
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            @endif
+        </nav>
+        
+    </div>
+
 </header>
 
 <!-- Main Content -->
@@ -262,13 +372,16 @@
 
     <div class="public-issues">
         @if(Auth::check() && Auth::user()->role != 'Guest')
-                @foreach($issues as $data)
-                    <div class="card">
-                        <h3>{{ $data->title }}</h3>
-                        <p>Published on: {{ $data->published_at }}</p>
-                        <button onclick="window.location.href='/issues/{{ $data->id }}/articles'">View Issue</button>
-                    </div>
-                @endforeach
+
+        @foreach($issues as $data)
+             @if($data->is_active) <!-- Vérifie si l'issue est active -->
+                <div class="card">
+                    <h3>{{ $data->title }}</h3>
+                    <p>Published on: {{ $data->published_at }}</p>
+                     <button onclick="window.location.href='/issues/{{ $data->id }}/articles'">View Issue</button>
+                </div>
+             @endif
+        @endforeach
         @else
             @foreach($publicIssues as $issue)
                 <div class="card">

@@ -166,17 +166,37 @@
 </header>
 
 <!-- Main Content -->
-<div class="container">
+ <div class="container">
     <!-- Statistics Section -->
     <div class="section">
-        <h2>Statistics</h2>
-        <ul>
-            <li>Total Subscribers: {{ $subscribersCount }}</li>
-            <li>Total Themes: {{ $themesCount }}</li>
-            <li>Total Articles: {{ $articlesCount }}</li>
-            <li>Total Issues: {{ $issuesCount }}</li>
-        </ul>
-    </div>
+    <h2>Statistics</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Total</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Subscribers</td>
+                <td>{{ $subscribersCount }}</td>
+            </tr>
+            <tr>
+                <td> Themes</td>
+                <td>{{ $themesCount }}</td>
+            </tr>
+            <tr>
+                <td>Articles</td>
+                <td>{{ $articlesCount }}</td>
+            </tr>
+            <tr>
+                <td>Issues</td>
+                <td>{{ $issuesCount }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
     <!-- Manage Articles Section -->
     <div class="section">
@@ -322,23 +342,26 @@
                     </td>
                     <td>{{ $issue->is_active ? 'Active' : 'Inactive' }}</td>
                     <td class="actions">
-                        <form action="editor/issues/{{ $issue->id }}/toggle" method="POST" style="display: inline;">
+                    
+                        <form action="{{ route('issues.toggle', $issue->id) }}" method="POST" style="display: inline;">
                             @csrf
-                            <button class="{{ $issue->is_active ? 'deactivate' : 'activate' }}">
-                                {{ $issue->is_active ? 'Deactivate' : 'Activate' }}
-                            </button>
+                               <button class="{{ $issue->is_active ? 'deactivate' : 'activate' }}">
+                                   {{ $issue->is_active ? 'Deactivate' : 'Activate' }}
+                               </button>
                         </form>
+
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-</div>
+</div> 
+
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2025 Tech Horizons. All rights reserved.</p>
+    <p>&copy; Magazine Tech Horizons. All rights reserved.</p>
 </footer>
 <script>
     /**

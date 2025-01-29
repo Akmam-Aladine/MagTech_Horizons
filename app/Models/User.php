@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'role'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'role','is_active'];
 
     public function themes(): HasMany
     {

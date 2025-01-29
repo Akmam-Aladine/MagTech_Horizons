@@ -89,54 +89,54 @@
             background-color: #e74c3c; /* Couleur rouge vif */
         }
 
-        .article-card {
-            display: flex;
-            align-items: flex-start;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 20px;
-        }
+    
 
-        .article-card img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 20px;
-        }
+        .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f7fb;
+}
 
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
+.article-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .article-card h3 {
-            font-size: 24px;
-            color: #2C3E50;
-            margin-bottom: 10px;
-        }
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
 
-        .article-card p {
-            font-size: 16px;
-            color: #7f8c8d;
-        }
+.article-card img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
 
-        .article-card .read-more {
-            display: inline-block;
-            margin-top: 10px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
+.article-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #2C3E50;
+}
 
-        .article-card .read-more:hover {
-            color: #2980b9;
-        }
+.article-card p {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
 
         footer {
             text-align: center;
@@ -195,7 +195,7 @@
     @endauth
 
     <!-- Articles List -->
-    @if($articles->count() > 0)
+    <!-- @if($articles->count() > 0)
         @foreach($articles as $article)
             <div class="article-card">
                 <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image">
@@ -208,6 +208,22 @@
     @else
         <p>No articles found in this theme.</p>
     @endif
+</div> -->
+
+<div class="articles-grid">
+@if($articles->count() > 0)
+    @foreach($articles as $article)
+    <div class="article-card">
+        <a href="/articles/{{ $article->id }}">
+            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
+        </a>
+        <h3>{{ $article->title }}</h3>
+        <p>{{ $article->theme->name }}</p>
+    </div>
+    @endforeach
+    @else
+        <p>No articles found in this theme.</p>
+ @endif   
 </div>
 
 <!-- Footer -->
