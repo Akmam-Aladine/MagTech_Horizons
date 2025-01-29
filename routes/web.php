@@ -55,10 +55,6 @@ Route::post('/editor/users/{id}/change-role', [EditorController::class, 'changeU
 Route::post('/editor/users/{id}/toggle', [EditorController::class, 'toggleStatus'])->name('users.toggle');
 Route::delete('/editor/users/{id}/delete', [EditorController::class, 'destroy'])->name('users.destroy');
 Route::post('/editor/issues/{id}/toggle', [EditorController::class, 'toggleStatus_Issues'])->name('issues.toggle');
-
-// Route::get('/editor/issues/{id}/toggle', [EditorController::class, 'toggleStatus_Issues'])->name('issues.toggle');
-
-
-
-
+Route::delete('/editor/issues/{id}/delete', [EditorController::class, 'destroyIssues'])->name('issues.destroyIssues');
+Route::post('/issues/{id}/toggle-visibility', [EditorController::class, 'toggleVisibility'])->name('issues.toggleVisibility');
 

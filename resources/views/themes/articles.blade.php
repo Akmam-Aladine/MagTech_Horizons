@@ -194,21 +194,7 @@
         @endif
     @endauth
 
-    <!-- Articles List -->
-    <!-- @if($articles->count() > 0)
-        @foreach($articles as $article)
-            <div class="article-card">
-                <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image">
-                <div>
-                    <h3>{{ $article->title }}</h3>
-                    <a href="/articles/{{ $article->id }}" class="read-more">Read More</a>
-                </div>
-            </div>
-        @endforeach
-    @else
-        <p>No articles found in this theme.</p>
-    @endif
-</div> -->
+  
 
 <div class="articles-grid">
 @if($articles->count() > 0)

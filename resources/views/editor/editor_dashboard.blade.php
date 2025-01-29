@@ -153,6 +153,27 @@
             margin: 0;
             font-size: 14px;
         }
+        .private-label {
+    color: red;
+    font-weight: bold;
+}
+.activate {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.desactivate {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -317,7 +338,9 @@
             @csrf
             <input type="text" name="title" placeholder="Issue Title" required>
             <input type="text" name="description" placeholder="Issue description" required>
+            <input type="date" name="published_at" id="published_at">
             <button type="submit">Add Issue</button>
+
         </form>
     </div>
 
@@ -342,12 +365,24 @@
                     </td>
                     <td>{{ $issue->is_active ? 'Active' : 'Inactive' }}</td>
                     <td class="actions">
-                    
+                    <form action="{{ route('issues.toggleVisibility', $issue->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                       <button class="{{ $issue->is_public ? 'desactivate' : 'activate' }}">
+                           {{ $issue->is_public ? 'Make Private' : 'Make Public' }}
+                          
+                       </button>
+                     </form>
+
                         <form action="{{ route('issues.toggle', $issue->id) }}" method="POST" style="display: inline;">
                             @csrf
                                <button class="{{ $issue->is_active ? 'deactivate' : 'activate' }}">
                                    {{ $issue->is_active ? 'Deactivate' : 'Activate' }}
                                </button>
+                        </form>
+                        <form action="{{ route('issues.destroyIssues', $issue->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="delete">Delete</button>
                         </form>
 
                     </td>

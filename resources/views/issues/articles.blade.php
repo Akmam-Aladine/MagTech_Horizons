@@ -49,7 +49,7 @@
             margin-bottom: 20px;
         }
 
-        .article-grid {
+        /* .article-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
@@ -93,7 +93,53 @@
 
         .article-card button:hover {
             background-color: #45a049;
-        }
+        } */
+         
+        .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f7fb;
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.article-card img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.article-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #2C3E50;
+}
+
+.article-card p {
+    font-size: 14px;
+    color: #7f8c8d;
+}
 
         footer {
             text-align: center;
@@ -120,20 +166,20 @@
     @if($articles->isEmpty())
         <p>No articles found for this issue.</p>
     @else
-        <div class="article-grid">
-            @foreach($articles as $article)
-                <div class="article-card">
-                    <h3>{{ $article->title }}</h3>
-                    <p><strong>Theme:</strong> {{ $article->theme->name }}</p>
-                    <small>Published on:
-                        {{ $article->published_at ? Carbon::parse($article->published_at)->format('d M Y') : 'Not Published Yet' }}
-                    </small>
-                    <button onclick="window.location.href='/articles/{{ $article->id }}'">Read More</button>
-                </div>
+        <div class="articles-grid">
+          @foreach($articles as $article)
+             <div class="article-card">
+                 <a href="/articles/{{ $article->id }}">
+                     <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
+                 </a>
+                <h3>{{ $article->title }}</h3>
+                   <p>{{ $article->theme->name }}</p>
+             </div>
             @endforeach
         </div>
-    @endif
-</div>
+    @endif   
+ </div>
+
 
 <!-- Footer -->
 <footer>

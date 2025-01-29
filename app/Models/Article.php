@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
-    protected $fillable = ['title', 'content', 'published_at', 'status', 'image', 'theme_id', 'proposed_by'];
+    protected $fillable = ['title', 'content', 'published_at', 'status', 'image', 'theme_id', 'proposed_by','issue_id'];
 
     public function theme(): BelongsTo
     {
@@ -41,4 +41,5 @@ class Article extends Model
         return $this->ratings()->avg('rating');
     }
 
+    
 }

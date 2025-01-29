@@ -77,16 +77,19 @@ class EditorController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'published_at' => 'required|date',
         ]);
 
         Issue::create([
             'title' => $request->title,
             'description' => $request->description,
+            'published_at'=> $request->published_at,
         ]);
 
         return redirect()->back()->with('success', 'New issue created successfully.');
     }
 
+    
     /**
      * Change la visibilité publique d'un numéro.
      */
@@ -106,10 +109,11 @@ class EditorController extends Controller
     {
         $article = Article::findOrFail($id);
         $request->validate(['issue_id' => 'required|exists:issues,id']);
-
+    
+         $article->issues()->attach($request->issue_id);
         $article->update([
             'status' => 'Published',
-            'issue_id' => $request->issue_id,
+            // 'issue_id' => $request->issue_id,
         ]);
 
 
@@ -189,6 +193,25 @@ class EditorController extends Controller
 
     return redirect()->back()->with('success', 'Issue status updated successfully.');
 }
+public function destroyIssues($id)
+    {
+        $issues = Issue::findOrFail($id);
+        $user = auth()->user();
+        // Empêcher la suppression d'un administrateur principal
+        if ($user->role === 'Admin') {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas supprimer un administrateur.');
+        }
+    
+        $issues->delete();
+    
+        return redirect()->back()->with('success', 'Utilisateur supprimé avec succès.');
+    }
+    public function toggleVisibility($id)
+{
+    $issue = Issue::findOrFail($id);
+    $issue->is_public = !$issue->is_public; // Change l'état Public/Privé
+    $issue->save();
 
-
+    return redirect()->back()->with('success', 'Visibility updated successfully.');
+}
 }
