@@ -147,7 +147,7 @@ class EditorController extends Controller
 
     public function changeUserRole(Request $request, $id)
     {
-        //dd($request->theme_id);
+     
         // Valider les données
         $request->validate([
             'role' => 'required|in:Guest,Subscriber,Theme Manager,Editor',
